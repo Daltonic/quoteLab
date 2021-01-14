@@ -3,6 +3,8 @@
     <div class="result__card" v-for="n in 6" :key="n">
       <img class="result__image" src="@/assets/images/search.png" alt="Cobra Kai">
     </div>
+    <div class="break"></div>
+    <button class="result__btn">Load More</button>
   </div>
 </template>
 
@@ -18,7 +20,7 @@ export default {
     flex-wrap: wrap;
     justify-content: space-around;
     max-width: 80%;
-    margin: 100px auto;
+    margin: 50px auto;
 }
 
 .result__card {
@@ -39,15 +41,37 @@ export default {
     transform: scale(1.11);
 }
 
-@media ( max-width: 768px) {
+.result__btn {
+    border: transparent;
+    cursor: pointer;
+    padding: 10px;
+    background: #00ad5f;
+    color: white;
+    border-radius: 9px;
+    box-shadow: 0 8px 20px 0 rgba(0,0,0,.15);
+    transition: all .2s ease-in-out;
+    margin-top: 40px;
+}
+
+.result__btn:hover {
+    background: transparent;
+    color: #00ad5f;
+}
+
+.break {
+  flex-basis: 100%;
+  height: 0;
+}
+
+@media ( max-width: 992px) {
   .result__card {
     width: 40%;
   }
 }
 
-@media ( max-width: 320px) {
+@media ( max-width: 768px) {
   .result__card {
-    width: 60%;
+    width: 90%;
   }
 }
 </style>

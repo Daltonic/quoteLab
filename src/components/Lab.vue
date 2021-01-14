@@ -89,13 +89,14 @@ export default {};
     cursor: pointer;
     padding: 10px;
     background: white;
+    border-radius: 9px;
     box-shadow: 0 8px 20px 0 rgba(0,0,0,.15);
     transition: all .2s ease-in-out;
 }
 
 .lab__btn:hover {
-    border-radius: 9px;
-    box-shadow: inset 0 0 10px  rgba(0,0,0,.15);
+    background: transparent;
+    color: white;
 }
 
 @media screen and (max-width: 992px){

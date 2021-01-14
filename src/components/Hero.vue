@@ -131,7 +131,7 @@ export default {
 }
 
 .hero__form .inner-form .input-field.second-wrap {
-    min-width: 216px;
+    min-width: 100px;
 }
 
 .hero__form .inner-form .input-field {
