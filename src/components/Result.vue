@@ -19,46 +19,49 @@
 </template>
 
 <script>
-import axios from 'axios'
+import { mapGetters, mapActions} from 'vuex'
+
 export default {
   name: "app-result",
   data() {
     return {
-      images: [],
-      selected: {},
       page: 1,
       loading: false,
     };
   },
   created() {
-    this.loadImages()
+    this.onLoadImages()
   },
   methods: {
+    ...mapActions([
+      'setSelected',
+      'loadImages'
+    ]),
+
     onSelected(image) {
-      this.selected = image;
-      console.log(image);
+      this.setSelected(image);
     },
 
-    loadImages() {
+    onLoadImages() {
       this.loading = true
-      const key = '4220489-ebd80a6f713e8c5b1283cbe04'
-      const uri = `https://pixabay.com/api/?key=${key}&q=yellow+flowers&image_type=photo&pretty=true&safesearch=true&page=${this.page}&per_page=6`
-      axios.get(uri)
-      .then((response) => {
-        this.images = response.data.hits
-        this.loading = false
-      })
-      .catch((error) => {
-        console.log(error)
-        this.loading = false
-      });
+      this.loadImages()
+      .catch(error => console.log(error))
+      .finally(() => this.loading = false)
     },
 
     loadMore() {
-      ++this.page
-      this.loadImages()
+      this.loading = true
+      this.loadImages({page: ++this.page})
+      .catch(error => console.log(error))
+      .finally(() => this.loading = false)
     }
   },
+  computed: {
+    ...mapGetters([
+      'images',
+      'selected'
+    ])
+  }
 };
 </script>
 
