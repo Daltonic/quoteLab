@@ -27,6 +27,7 @@
 
 <script>
 export default {
+  name: "app-lab",
   data() {
     return {
       name: "",

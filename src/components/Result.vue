@@ -2,37 +2,62 @@
   <div class="result__container">
     <div
       class="result__card"
-      v-for="n in images"
-      :key="n"
-      :class="{ result_selected: n == selected }"
+      v-for="image in images"
+      :key="image.id"
     >
       <img
         class="result__image"
-        src="@/assets/images/search.png"
-        alt="Cobra Kai"
-        @click="onSelected(n)"
+        :src="image.largeImageURL"
+        :alt="image.tags"
+        :class="{ result_selected: image == selected }"
+        @click="onSelected(image)"
       />
     </div>
     <div class="break"></div>
-    <button class="result__btn">Load More</button>
+    <button class="result__btn" @click="loadMore" :disabled="loading">{{ loading ? 'Loading...' : 'Load More' }}</button>
   </div>
 </template>
 
 <script>
+import axios from 'axios'
 export default {
   name: "app-result",
   data() {
     return {
-      images: [1, 2, 3, 4, 5, 6],
-      selected: null,
+      images: [],
+      selected: {},
+      page: 1,
+      loading: false,
     };
   },
+  created() {
+    this.loadImages()
+  },
   methods: {
-    onSelected(item) {
-      this.selected = item;
-      console.log(item);
+    onSelected(image) {
+      this.selected = image;
+      console.log(image);
     },
-    
+
+    loadImages() {
+      this.loading = true
+      const key = '4220489-ebd80a6f713e8c5b1283cbe04'
+      const uri = `https://pixabay.com/api/?key=${key}&q=yellow+flowers&image_type=photo&pretty=true&safesearch=true&page=${this.page}&per_page=6`
+      axios.get(uri)
+      .then((response) => {
+        this.images = response.data.hits
+        this.loading = false
+      })
+      .catch((error) => {
+        console.log(error)
+        this.loading = false
+      });
+    },
+
+    loadMore() {
+      ++this.page
+      this.loadImages()
+    }
   },
 };
 </script>
@@ -53,9 +78,10 @@ export default {
 
 .result__image {
   flex-grow: 1;
-  object-fit: contain;
+  object-fit: cover;
   width: 100%;
   max-height: 250px;
+  min-height: 250px;
   transition: all 0.2s ease-in-out;
   box-shadow: 0 8px 20px 0 rgba(0, 0, 0, 0.15);
   cursor: pointer;
@@ -72,6 +98,10 @@ export default {
   transform: scale(1.11);
   box-shadow: 0 8px 20px 0 #ffc107;
   border-radius: 9px;
+}
+
+.result_selected:hover {
+  box-shadow: 0 8px 20px 0 #ffc107;
 }
 
 .result__btn {
