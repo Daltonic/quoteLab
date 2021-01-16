@@ -51,7 +51,7 @@ export default {
 
     loadMore() {
       this.loading = true
-      this.loadImages({page: ++this.page})
+      this.loadImages({page: ++this.page, keyword: this.keyword})
       .catch(error => console.log(error))
       .finally(() => this.loading = false)
     }
@@ -59,7 +59,8 @@ export default {
   computed: {
     ...mapGetters([
       'images',
-      'selected'
+      'selected',
+      'keyword',
     ])
   }
 };

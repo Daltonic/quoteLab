@@ -1,6 +1,12 @@
 <template>
   <div class="hero__container">
-    <form class="hero__form" :style="{backgroundImage: `url(${require('@/assets/images/search.png')})`}">
+    <form
+      @submit.prevent="onSubmit"
+      class="hero__form"
+      :style="{
+        backgroundImage: `url(${require('@/assets/images/search.png')})`,
+      }"
+    >
       <div class="inner-form">
         <div class="input-field first-wrap">
           <div class="svg-wrapper">
@@ -19,10 +25,13 @@
             id="search"
             type="text"
             placeholder="What are you looking for?"
+            v-model="keyword"
           />
         </div>
         <div class="input-field second-wrap">
-          <button class="btn-search" type="button">SEARCH</button>
+          <button class="btn-search" type="submit">
+            {{ searching ? "SEARCHING..." : "SEARCH" }}
+          </button>
         </div>
       </div>
       <span class="info">ex. Love, Road, Flower, Garden, House</span>
@@ -31,116 +40,132 @@
 </template>
 
 <script>
+import { mapActions, mapMutations } from "vuex";
+
 export default {
   data() {
     return {
-      image: '@/assets/search.png'
-    }
-  }
-}
+      keyword: "",
+      searching: false,
+    };
+  },
+  methods: {
+    ...mapActions(["searchImages"]),
+    ...mapMutations(["setKeyword"]),
+
+    onSubmit() {
+      this.searching = true;
+      const keyword = this.keyword.split(" ").join("+");
+      this.searchImages({ keyword })
+        .then(() => this.setKeyword(keyword))
+        .catch((error) => console.log(error))
+        .finally(() => (this.searching = false))
+    },
+  },
+};
 </script>
 
 <style scoped>
 .hero__container {
-    min-height: 50vh;
-    display: -ms-flexbox;
-    display: flex;
-    -ms-flex-pack: center;
-    justify-content: center;
-    font-family: poppins,sans-serif;
-    background-position: bottom right;
-    background-repeat: no-repeat;
-    background-size: 100%;
-    padding: 15px;
+  min-height: 50vh;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-pack: center;
+  justify-content: center;
+  font-family: poppins, sans-serif;
+  background-position: bottom right;
+  background-repeat: no-repeat;
+  background-size: 100%;
+  padding: 15px;
 }
 
 .hero__form {
-    width: 100%;
-    max-width: 790px;
-    padding-top: 24vh;
+  width: 100%;
+  max-width: 790px;
+  padding-top: 24vh;
 }
 
 .hero__form .inner-form {
-    display: -ms-flexbox;
-    display: flex;
-    width: 100%;
-    -ms-flex-pack: justify;
-    justify-content: space-between;
-    -ms-flex-align: center;
-    align-items: center;
-    box-shadow: 0 8px 20px 0 rgba(0,0,0,.15);
-    border-radius: 34px;
-    overflow: hidden;
-    margin-bottom: 30px;
+  display: -ms-flexbox;
+  display: flex;
+  width: 100%;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  -ms-flex-align: center;
+  align-items: center;
+  box-shadow: 0 8px 20px 0 rgba(0, 0, 0, 0.15);
+  border-radius: 34px;
+  overflow: hidden;
+  margin-bottom: 30px;
 }
 
 .hero__form .inner-form .input-field.first-wrap {
-    -ms-flex-positive: 1;
-    flex-grow: 1;
-    display: -ms-flexbox;
-    display: flex;
-    -ms-flex-align: center;
-    align-items: center;
-    background: #d9f1e3;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-align: center;
+  align-items: center;
+  background: #d9f1e3;
 }
 
 .hero__form .inner-form .input-field.first-wrap .svg-wrapper {
-    min-width: 80px;
-    display: -ms-flexbox;
-    display: flex;
-    -ms-flex-pack: center;
-    justify-content: center;
-    -ms-flex-align: center;
-    align-items: center;
+  min-width: 80px;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -ms-flex-align: center;
+  align-items: center;
 }
 
 .hero__form .inner-form .input-field input {
-    height: 100%;
-    background: 0 0;
-    border: 0;
-    display: block;
-    width: 100%;
-    padding: 10px 0;
-    font-size: 16px;
-    color: #000;
+  height: 100%;
+  background: 0 0;
+  border: 0;
+  display: block;
+  width: 100%;
+  padding: 10px 0;
+  font-size: 16px;
+  color: #000;
 }
 
 .hero__form .inner-form .input-field.second-wrap {
-    min-width: 216px;
+  min-width: 216px;
 }
 
 .hero__form .info {
-    font-size: 15px;
-    color: #ccc;
-    padding-left: 26px;
+  font-size: 15px;
+  color: #ccc;
+  padding-left: 26px;
 }
 
 .hero__form .inner-form .input-field.second-wrap .btn-search {
-    height: 100%;
-    width: 100%;
-    white-space: nowrap;
-    font-size: 16px;
-    color: #fff;
-    border: 0;
-    cursor: pointer;
-    position: relative;
-    z-index: 0;
-    background: #00ad5f;
-    transition: all .2s ease-out,color .2s ease-out;
-    font-weight: 300;
+  height: 100%;
+  width: 100%;
+  white-space: nowrap;
+  font-size: 16px;
+  color: #fff;
+  border: 0;
+  cursor: pointer;
+  position: relative;
+  z-index: 0;
+  background: #00ad5f;
+  transition: all 0.2s ease-out, color 0.2s ease-out;
+  font-weight: 300;
 }
 
 .hero__form .inner-form .input-field.second-wrap {
-    min-width: 100px;
+  min-width: 100px;
 }
 
 .hero__form .inner-form .input-field {
-    height: 68px;
+  height: 68px;
 }
 
-@media screen and (max-width: 992px){
-    .hero__form .inner-form .input-field {
-        height: 50px;
-    }
+@media screen and (max-width: 992px) {
+  .hero__form .inner-form .input-field {
+    height: 50px;
+  }
 }
 </style>
