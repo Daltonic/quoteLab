@@ -1,6 +1,8 @@
 <template>
   <div class="lab__container">
-    <div class="lab__card">
+    <div :style="{background:
+          `linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
+            url(${image || 'https://s3-us-west-2.amazonaws.com/s.cdpn.io/3/skyscrapers.jpg'}) no-repeat center center / cover`}" class="lab__card">
       <p>{{ quote }}</p>
       <small>{{ name }}</small>
     </div>
@@ -26,14 +28,27 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+
 export default {
   name: "app-lab",
   data() {
     return {
       name: "",
       quote: "",
+      image: '',
     };
   },
+  computed: {
+    ...mapGetters([
+      'selected'
+    ])
+  },
+  watch: {
+    selected() {
+      this.image = this.selected.largeImageURL
+    }
+  }
 };
 </script>
 
@@ -50,9 +65,6 @@ export default {
 
 .lab__card {
   width: 30%;
-  background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
-    url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/3/skyscrapers.jpg);
-  background-size: cover;
   width: 300px;
   height: 400px;
   border-radius: 9px;
@@ -104,7 +116,8 @@ export default {
   border: none;
   cursor: pointer;
   padding: 10px;
-  background: white;
+  background: #ffc107;
+  color: white;
   border-radius: 9px;
   box-shadow: 0 8px 20px 0 rgba(0, 0, 0, 0.15);
   transition: all 0.2s ease-in-out;
@@ -112,7 +125,6 @@ export default {
 
 .lab__btn:hover {
   background: transparent;
-  color: white;
 }
 
 @media screen and (max-width: 992px) {
