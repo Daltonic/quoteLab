@@ -1,8 +1,13 @@
 <template>
   <div class="lab__container">
-    <div :style="{background:
-          `linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
-            url(${image || 'https://s3-us-west-2.amazonaws.com/s.cdpn.io/3/skyscrapers.jpg'}) no-repeat center center / cover`}" class="lab__card">
+    <div
+      ref="capture"
+      :style="{
+        background: `linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
+            url(${image}) no-repeat center center / cover`,
+      }"
+      class="lab__card"
+    >
       <p>{{ quote }}</p>
       <small>{{ name }}</small>
     </div>
@@ -10,7 +15,7 @@
       <h4>Eith Quote</h4>
       <textarea
         class="lab__form"
-        placeholder="Remember, be nice!"
+        placeholder="Type your quote here, be nice!"
         cols="30"
         rows="10"
         v-model="quote"
@@ -22,13 +27,16 @@
         placeholder="Your name"
         v-model="name"
       />
-      <button class="lab__btn">Capture</button>
+      <button class="lab__btn" @click="onCapture" :disabled="capturing">
+        {{ capturing ? "Capturing..." : "Capture" }}
+      </button>
     </div>
   </div>
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapMutations } from "vuex";
+import domtoimage from "dom-to-image-more";
 
 export default {
   name: "app-lab",
@@ -36,19 +44,36 @@ export default {
     return {
       name: "",
       quote: "",
-      image: '',
+      image: "",
+      capturing: false,
     };
   },
+  methods: {
+    ...mapMutations(["setImage"]),
+    onCapture() {
+      this.capturing = true;
+      const capture = this.$refs.capture;
+
+      domtoimage
+        .toPng(capture)
+        .then((dataUrl) => {
+          this.setImage(dataUrl);
+          this.capturing = false;
+        })
+        .catch((error) => {
+          this.capturing = false;
+          console.error("oops, something went wrong!", error);
+        });
+    },
+  },
   computed: {
-    ...mapGetters([
-      'selected'
-    ])
+    ...mapGetters(["selected"]),
   },
   watch: {
     selected() {
-      this.image = this.selected.largeImageURL
-    }
-  }
+      this.image = this.selected.largeImageURL;
+    },
+  },
 };
 </script>
 
