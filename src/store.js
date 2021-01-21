@@ -4,6 +4,7 @@ import { createStore } from "vuex"
 const store = createStore({
   state: {
     images: [],
+    image: null,
     selected: null,
     keyword: ''
   },
@@ -12,6 +13,7 @@ const store = createStore({
     search: (state, payload) => (state.images = payload),
     setKeyword: (state, payload) => (state.keyword = payload),
     selected: (state, payload) => (state.selected = payload),
+    setImage: (state, payload) => (state.image = payload),
   },
   actions: {
     setSelected: (state, payload) => state.commit('selected', payload),
@@ -42,6 +44,7 @@ const store = createStore({
   },
   getters: {
     images: state => state.images,
+    image: state => state.image,
     selected: state => state.selected,
     keyword: state => state.keyword,
   }
