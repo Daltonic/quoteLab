@@ -163,7 +163,7 @@ export default {
   }
 
   .lab__card > p {
-    padding: 5rem 0;
+    padding: 0.5rem 0;
   }
 }
 </style>
