@@ -166,4 +166,10 @@ export default {
     padding: 0.5rem 0;
   }
 }
+
+@media screen and (max-width: 410px) {
+  .lab__card > p {
+    font-size: 25px;
+  }
+}
 </style>
