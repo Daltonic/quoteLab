@@ -1,5 +1,5 @@
 import axios from 'axios'
-import apiKey from './config'
+import API_KEY from './config'
 import { createStore } from "vuex"
 
 const store = createStore({
@@ -19,7 +19,7 @@ const store = createStore({
   actions: {
     setSelected: (state, payload) => state.commit('selected', payload),
     loadImages(state, payload = {}) {
-      const uri = `https://pixabay.com/api/?key=${apiKey}&q=${payload?.keyword || '%27%27=photo'}&image_type=photo&pretty=true&safesearch=true&page=${payload?.page || 1}&per_page=6`
+      const uri = `https://pixabay.com/api/?key=${API_KEY}&q=${payload?.keyword || '%27%27=photo'}&image_type=photo&pretty=true&safesearch=true&page=${payload?.page || 1}&per_page=6`
         
         return new Promise((respond, reject) => {
             axios.get(uri)
@@ -31,7 +31,7 @@ const store = createStore({
         })
     },
     searchImages(state, payload = {}) {
-      const uri = `https://pixabay.com/api/?key=${apiKey}&q=${payload?.keyword || '%27%27=photo'}&image_type=photo&pretty=true&safesearch=true&page=${payload?.page || 1}&per_page=6`
+      const uri = `https://pixabay.com/api/?key=${API_KEY}&q=${payload?.keyword || '%27%27=photo'}&image_type=photo&pretty=true&safesearch=true&page=${payload?.page || 1}&per_page=6`
       
       return new Promise((respond, reject) => {
           axios.get(uri)
