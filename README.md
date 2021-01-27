@@ -10,8 +10,8 @@
 <!-- PROJECT LOGO -->
 <br />
 <p align="center">
-  <a href="https://vuejs.org/images/logo.png">
-    <img src="images/logo.png" alt="Logo" width="80" height="80">
+  <a href="https://github.com/Daltonic/quoteLab/">
+    <img src="https://vuejs.org/images/logo.png" alt="Logo" width="80" height="80">
   </a>
 
   <h3 align="center">Quotes Lab</h3>
