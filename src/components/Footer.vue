@@ -2,7 +2,7 @@
   <div class="footer__container">
       <div class="footer__copywrite">
         <p>&copy; 2021 All right reserved</p>
-        <small>Built by <a href="#">Gospel Darlington</a></small>
+        <small>Built by <a href="https://www.facebook.com/darlington.gospel01">Gospel Darlington</a></small>
       </div>
   </div>
 </template>
