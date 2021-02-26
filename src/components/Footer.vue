@@ -1,8 +1,11 @@
 <template>
   <div class="footer__container">
       <div class="footer__copywrite">
-        <p>&copy; 2021 All right reserved</p>
-        <small>Built by <a href="https://www.facebook.com/darlington.gospel01">Gospel Darlington</a></small>
+        <p>©2021 Data Mockup.</p>
+        <small>
+            Made With ❤️ by
+            <a target="_blank" href="https://github.com/Daltonic">Daltonic 🔥</a>
+        </small>
       </div>
   </div>
 </template>
